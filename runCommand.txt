@@ -1,0 +1,29 @@
+docker compose up -d
+
+
+docker logs kafka
+
+
+
+docker exec -it kafka \
+  /opt/kafka/bin/kafka-topics.sh \
+  --bootstrap-server localhost:9092 \
+  --list
+
+
+
+  docker exec -it kafka \
+  /opt/kafka/bin/kafka-topics.sh \
+  --bootstrap-server localhost:9092 \
+  --create \
+  --topic expense_service \
+  --partitions 3 \
+  --replication-factor 1
+
+
+
+  docker exec -it kafka \
+  /opt/kafka/bin/kafka-console-consumer.sh \
+  --bootstrap-server localhost:9092 \
+  --topic expense_service \
+  --from-beginning
