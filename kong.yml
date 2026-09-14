@@ -1,0 +1,104 @@
+_format_version: "3.0"
+_transform: true
+
+
+services:
+
+
+  - name: kong-status
+    url: http://localhost:8001
+    routes:
+      - name: status-route
+        paths:
+          - /status
+        strip_path: true
+    plugins:
+      - name: request-termination
+        config:
+          status_code: 200
+          message: "OK"
+
+
+
+  - name: expense-service
+    url: http://expenseService:9820
+    routes:
+      - name: expense-route
+        paths:
+          - /expense/v1
+        strip_path: false
+        preserve_host: false
+    plugins:
+      - name: custom-auth
+        config:
+          auth_service_url: "http://authService:9898/auth/ping"
+
+
+
+  - name: data-science-service
+    url: http://dsService:8010
+    routes:
+      - name: ds-route
+        paths:
+          - /v1/ds
+        strip_path: false
+        preserve_host: false
+    plugins:
+      - name: custom-auth
+        config:
+          auth_service_url: "http://authService:9898/auth/ping"
+
+
+
+
+  - name: user-service
+    url: http://userservice:9830
+    routes:
+      - name: user-route
+        paths:
+          - /user
+        strip_path: false
+        preserve_host: false
+    plugins:
+      - name: custom-auth
+        config:
+          auth_service_url: "http://authService:9898/auth/ping"
+
+
+
+
+  - name: auth-service
+    url: http://authService:9898
+    routes:
+      - name: auth-route
+        paths:
+          - /auth/v1
+        strip_path: false
+        preserve_host: false
+
+
+
+
+
+# # ====================================
+# # CUSTOM AUTH PLUGIN
+# # ====================================
+
+# plugins:
+
+#   - name: custom-auth
+
+#     route: expense-route
+
+#     config:
+
+#       auth_service_url: http://authService:9898/auth/ping
+
+
+#   - name: custom-auth
+
+#     route: user-route
+
+#     config:
+
+#       auth_service_url: http://authService:9898/auth/ping
