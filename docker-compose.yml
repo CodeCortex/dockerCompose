@@ -22,31 +22,112 @@ services:
       KAFKA_GROUP_INITIAL_REBALANCE_DELAY_MS: 0
       KAFKA_NUM_PARTITIONS: 3
 
-  kong:
-  build:
-    context: ./kong
-    dockerfile: Dockerfile
+  
+  mysql:
+    image: mysql:8.3.0
+    container_name: mysql-8.3.0
+    restart: always
+    environment:
+      MYSQL_USER: test
+      MYSQL_ROOT_USER: root
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'password'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'
+    volumes:
+      - mysql-db:/var/lib/mysql
+  
 
-  container_name: kong
+  userservice:
+    image: user-service
+    container_name: user-service
+    ports:
+      - '9810:9810'
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: userservice
+    depends_on:
+      - kafka
+      - mysql
+      - authservice
 
-  depends_on:
-    - authService
-    - expenseService
-    - userservice
+  expenseservice:
+    image: expense-service
+    container_name: expense-service
+    ports: 
+      - '9820:9820'
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: expenseservice
+    depends_on:
+      - kafka
+      - mysql
+  
 
-  environment:
-    KONG_DATABASE: "off"
-    KONG_DECLARATIVE_CONFIG: /kong/declarative/kong.yml
-    KONG_PLUGINS: bundled,custom-auth
-    KONG_PROXY_ACCESS_LOG: /dev/stdout
-    KONG_PROXY_ERROR_LOG: /dev/stderr
-    KONG_ADMIN_ACCESS_LOG: /dev/stdout
-    KONG_ADMIN_ERROR_LOG: /dev/stderr
-    KONG_ADMIN_LISTEN: 0.0.0.0:8001
+  dsservice:
+    image: ds-service
+    container_name: ds-service
+    ports:
+      - '8010:8010'
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      OPENAI_API_KEY: uhL33lPfvF1I32YAJk1bj3sjC29oNjDD
+    depends_on:
+      - kafka
+      - mysql
+      - expenseservice
+      - userservice
 
-  volumes:
-    - ./kong.yml:/kong/declarative/kong.yml:ro
 
-  ports:
-    - "8000:8000"
-    - "8001:8001"
+  authservice:
+    image: auth-service
+    container_name: auth-service
+    ports:
+      - '9898:9898'
+    environment:
+      KAFKA_HOST: kafka
+      KAFKA_PORT: 9092
+      MYSQL_HOST: mysql
+      MYSQL_PORT: 3306
+      MYSQL_DB: authservice
+    depends_on:
+      - kafka
+      - mysql
+
+
+  kong-service:
+    image: kong:latest
+    volumes:
+      - "./kong.yml:/usr/local/kong/declarative/kong.yml"
+      - "./plugins:/usr/local/share/lua/5.1/kong/plugins"
+    environment:
+      KONG_DATABASE: "off"
+      KONG_DECLARATIVE_CONFIG: "/usr/local/kong/declarative/kong.yml"
+      KONG_PROXY_ACCESS_LOG: "/dev/stdout"
+      KONG_ADMIN_ACCESS_LOG: "/dev/stdout"
+      KONG_PROXY_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_ERROR_LOG: "/dev/stderr"
+      KONG_ADMIN_LISTEN: "0.0.0.0:8001, 0.0.0.0:8444 ssl"
+      KONG_LOG_LEVEL: "debug"
+      KONG_PLUGINS: "custom-auth"
+      KONG_LUA_PACKAGE_PATH: "/usr/local/share/lua/5.1/?.lua;;"
+    ports:
+      - "8000:8000/tcp"
+      - "127.0.0.1:7990:8001/tcp"
+      - "8443:8443/tcp"
+      - "127.0.0.1:8444:8444/tcp"
+    depends_on:
+      - authservice
+
+volumes:
+  mysql-db:
+    driver: local
