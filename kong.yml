@@ -21,7 +21,7 @@ services:
 
 
   - name: expense-service
-    url: http://expenseService:9820
+    url: http://expenseservice:9820
     routes:
       - name: expense-route
         paths:
@@ -31,12 +31,12 @@ services:
     plugins:
       - name: custom-auth
         config:
-          auth_service_url: "http://authService:9898/auth/ping"
+          auth_service_url: "http://authservice:9898/auth/ping"
 
 
 
   - name: data-science-service
-    url: http://dsService:8010
+    url: http://dsservice:8010
     routes:
       - name: ds-route
         paths:
@@ -46,13 +46,13 @@ services:
     plugins:
       - name: custom-auth
         config:
-          auth_service_url: "http://authService:9898/auth/ping"
+          auth_service_url: "http://authservice:9898/auth/ping"
 
 
 
 
   - name: user-service
-    url: http://userservice:9830
+    url: http://userservice:9810
     routes:
       - name: user-route
         paths:
@@ -62,13 +62,13 @@ services:
     plugins:
       - name: custom-auth
         config:
-          auth_service_url: "http://authService:9898/auth/ping"
+          auth_service_url: "http://authservice:9898/auth/ping"
 
 
 
 
   - name: auth-service
-    url: http://authService:9898
+    url: http://authservice:9898
     routes:
       - name: auth-route
         paths:

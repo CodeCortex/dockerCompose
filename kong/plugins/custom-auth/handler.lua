@@ -46,7 +46,7 @@ function CustomAuthHandler:access(config)
     )
 
     return kong.response.exit(
-      500,
+      503,
       {
         message = "Authentication service unavailable"
       }

@@ -21,7 +21,7 @@ return {
             auth_service_url = {
               type = "string",
               required = true,
-              default = "http://authService:9898/auth/ping"
+              default = "http://authservice:9898/auth/ping"
             }
           }
         }
