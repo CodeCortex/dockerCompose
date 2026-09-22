@@ -68,3 +68,6 @@ docker compose restart kong-service
 docker compose logs -f kong-service
 
 docker compose up -d --force-recreate kong-service
+
+
+//roshan Jaiswal
