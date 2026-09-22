@@ -40,10 +40,7 @@ function CustomAuthHandler:access(config)
   -- Auth service unavailable
   if not res then
 
-    kong.log.err(
-      "Failed to call auth service: ",
-      err
-    )
+    kong.log.err("AUTH REQUEST ERROR: ", err)
 
     return kong.response.exit(
       503,
@@ -53,8 +50,18 @@ function CustomAuthHandler:access(config)
     )
   end
 
+
+  kong.log.debug("AUTH STATUS: ", tostring(res.status))
+  kong.log.debug("AUTH BODY: ", tostring(res.body))
+
   -- Token invalid
   if res.status ~= 200 then
+    kong.log.err(
+        "AUTH FAILED. STATUS=",
+        tostring(res.status),
+        " BODY=",
+        tostring(res.body)
+    )
 
     return kong.response.exit(
       401,

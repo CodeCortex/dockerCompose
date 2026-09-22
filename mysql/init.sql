@@ -1,3 +1,11 @@
 CREATE DATABASE IF NOT EXISTS userservice;
 CREATE DATABASE IF NOT EXISTS expenseservice;
 CREATE DATABASE IF NOT EXISTS authservice;
+
+CREATE USER IF NOT EXISTS 'test'@'%' IDENTIFIED BY 'password';
+
+GRANT ALL PRIVILEGES ON userservice.* TO 'test'@'%';
+GRANT ALL PRIVILEGES ON expenseservice.* TO 'test'@'%';
+GRANT ALL PRIVILEGES ON authservice.* TO 'test'@'%';
+
+FLUSH PRIVILEGES;

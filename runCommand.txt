@@ -27,3 +27,44 @@ docker exec -it kafka \
   --bootstrap-server localhost:9092 \
   --topic expense_service \
   --from-beginning
+
+
+
+
+
+
+./gradlew clean
+  ./gradlew clean build
+  ./gradlew bootRun  
+
+  
+  docker build -t auth-service .
+
+
+
+
+docker compose logs -f kafka
+
+
+docker compose logs -f userservice
+
+
+
+docker exec -it mysql-8.3.0 mysql -uroot -ppassword
+
+
+
+
+
+docker exec -it dockercompose-kong-service-1 sh
+
+wget -qO- \
+  --header="Authorization: Bearer YOUR_TOKEN" \
+  http://authservice:9898/auth/ping
+
+
+
+docker compose restart kong-service
+docker compose logs -f kong-service
+
+docker compose up -d --force-recreate kong-service

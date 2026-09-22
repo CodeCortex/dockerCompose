@@ -31,7 +31,7 @@ services:
     plugins:
       - name: custom-auth
         config:
-          auth_service_url: "http://authservice:9898/auth/ping"
+          auth_service_url: "http://authservice:9898/auth/v1/ping"
 
 
 
@@ -46,7 +46,7 @@ services:
     plugins:
       - name: custom-auth
         config:
-          auth_service_url: "http://authservice:9898/auth/ping"
+          auth_service_url: "http://authservice:9898/auth/v1/ping"
 
 
 
@@ -62,7 +62,7 @@ services:
     plugins:
       - name: custom-auth
         config:
-          auth_service_url: "http://authservice:9898/auth/ping"
+          auth_service_url: "http://authservice:9898/auth/v1/ping"
 
 
 
