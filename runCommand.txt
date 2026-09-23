@@ -5,6 +5,11 @@ docker logs kafka
 
 
 
+docker run -d --name my-custom-app -p 8080:80 -v /my/local/data:/data -e ENV=production nginx
+
+
+
+
 docker exec -it kafka \
   /opt/kafka/bin/kafka-topics.sh \
   --bootstrap-server localhost:9092 \
@@ -34,11 +39,14 @@ docker exec -it kafka \
 
 
 ./gradlew clean
-  ./gradlew clean build
-  ./gradlew bootRun  
+./gradlew clean build
+./gradlew bootRun  
+./gradlew test --stacktrace
+./gradlew test --info
 
   
-  docker build -t auth-service .
+
+docker build -t auth-service .
 
 
 
@@ -71,3 +79,18 @@ docker compose up -d --force-recreate kong-service
 
 
 //roshan Jaiswal
+
+
+
+
+
+docker compose up -d redis
+
+
+docker exec -it redis redis-cli ping
+
+
+docker exec -it redis redis-cli
+KEYS *
+GET /expenses/101
+GET "expenses::101"

@@ -44,6 +44,21 @@ services:
       - mysql-db:/var/lib/mysql
       - ./mysql/init.sql:/docker-entrypoint-initdb.d/init.sql:ro
   
+  redis:
+    image: redis:7-alpine
+    container_name: redis
+    restart: always
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+  
 
   userservice:
     image: user-service:latest
@@ -57,9 +72,12 @@ services:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_DB: userservice
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       - kafka
       - mysql
+      - redis
       - authservice
 
   expenseservice:
@@ -74,9 +92,12 @@ services:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_DB: expenseservice
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       - kafka
       - mysql
+      - redis
   
 
   dsservice:
@@ -108,9 +129,12 @@ services:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_DB: authservice
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       - kafka
       - mysql
+      - redis
 
 
   kong-service:
@@ -141,4 +165,7 @@ services:
 
 volumes:
   mysql-db:
+    driver: local
+  
+  redis-data:
     driver: local
