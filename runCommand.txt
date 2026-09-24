@@ -8,7 +8,25 @@ docker logs kafka
 docker run -d --name my-custom-app -p 8080:80 -v /my/local/data:/data -e ENV=production nginx
 
 
+docker run -d \                                                          
+  --name kafka \
+  -p 9092:9092 \
+  -e KAFKA_NODE_ID=1 \
+  -e KAFKA_PROCESS_ROLES=broker,controller \
+  -e KAFKA_LISTENERS=PLAINTEXT://0.0.0.0:9092,CONTROLLER://0.0.0.0:9093 \
+  -e KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092 \
+  -e KAFKA_CONTROLLER_LISTENER_NAMES=CONTROLLER \
+  -e KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=CONTROLLER:PLAINTEXT,PLAINTEXT:PLAINTEXT \
+  -e KAFKA_CONTROLLER_QUORUM_VOTERS=1@localhost:9093 \
+  -e KAFKA_INTER_BROKER_LISTENER_NAME=PLAINTEXT \
+  apache/kafka:latest
 
+
+docker run -d --name my-redis -p 6379:6379 redis
+
+docker exec -it my-redis redis-cli
+
+  
 
 docker exec -it kafka \
   /opt/kafka/bin/kafka-topics.sh \

@@ -110,10 +110,13 @@ services:
       KAFKA_HOST: kafka
       KAFKA_PORT: 29092
       GROQ_API_KEY: ${GROQ_API_KEY}
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
     depends_on:
       - kafka
       - mysql
       - expenseservice
+      - redis
       - userservice
 
 
@@ -129,12 +132,9 @@ services:
       MYSQL_HOST: mysql
       MYSQL_PORT: 3306
       MYSQL_DB: authservice
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
     depends_on:
       - kafka
       - mysql
-      - redis
 
 
   kong-service:
