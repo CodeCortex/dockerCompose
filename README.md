@@ -66,7 +66,7 @@ Auth Service produces user information such as:
   "firstName": "Roshan",
   "lastName": "Jaiswal",
   "email": "rosjaiswal9@gmail.com",
-  "phoneNumber": +91-9508801096,
+  "phoneNumber": 9508801096,
   "userId": "123e4567-e89b-12d3-a456-426614174000",
   "profilePic": "https://avatars.githubusercontent.com/u/90549641?v=4"
 }
@@ -236,7 +236,7 @@ For input message:
 
 ```json
 {
-    "message":"INR 290 spent on AXIS Bank Card XX7003 on 23-Apr-24 at Codecortex Coffee shop. AUS Lmt: INR 43,266.15. To dispute,call 18002662/SMS BLOCK 7003 to 9215676766"
+    "message":"INR 290 spent on SBI Bank Card XX7003 on 23-Apr-24 at Codecortex Coffee shop. Avl Lmt: INR 43,266.15. To dispute,call 18002662/SMS BLOCK 7003 to 9215676766"
 }
 ```
 
@@ -295,29 +295,29 @@ to the Expense Service asynchronously.
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| POST | `/signup` | Register user |
-| POST | `/login` | Login |
+| POST | `/auth/v1/signup` | Register user |
+| POST | `/auth/v1/login` | Login |
 | GET | `/health` | Health check |
-| GET | `/ping` | Ping |
-| GET | `/developer` | Developer information |
+| GET | `/auth/v1/ping` | Ping |
+| GET | `/api/v1/developer` | Developer information |
 
 ## User Service — `9810`
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| GET | `/getUser` | Get user |
-| POST | `/createUpdate` | Create/update user |
+| GET | `/user/v1/getUser?user_id=...` | Get user |
+| POST | `/user/v1/createUpdate` | Create/update user |
 | GET | `/health` | Health check |
-| GET | `/developer` | Developer information |
+| GET | `/api/v1/developer` | Developer information |
 
 ## Expense Service — `9820`
 
 | Method | Endpoint | Purpose |
 |---|---|---|
-| GET | `/getExpense` | Get expenses |
-| POST | `/addExpense` | Add expense |
-| GET | `/health` | Health check |
-| GET | `/developer` | Developer information |
+| GET | `/expense/v1/getExpense` | Get expenses |
+| POST | `/expense/v1/addExpense` | Add expense |
+| GET | `/expense/v1/health` | Health check |
+| GET | `/api/v1/developer` | Developer information |
 
 ## Data Science Service — `8010`
 
@@ -371,8 +371,6 @@ Create a `.env` file:
 GROQ_API_KEY=your_groq_api_key
 ```
 
-Do not commit real API keys or secrets to GitHub.
-
 ---
 
 # ▶️ Running the Project
@@ -380,8 +378,8 @@ Do not commit real API keys or secrets to GitHub.
 ### 1. Clone
 
 ```bash
-git clone https://github.com/CodeCortex/microservice.git
-cd microservice
+git clone https://github.com/CodeCortex/microserviceCompose.git
+cd microserviceCompose
 ```
 
 ### 2. Configure environment
