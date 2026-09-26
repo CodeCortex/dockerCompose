@@ -8,8 +8,7 @@ docker logs kafka
 docker run -d --name my-custom-app -p 8080:80 -v /my/local/data:/data -e ENV=production nginx
 
 
-docker run -d \                                                          
-  --name kafka \
+docker run -d --name kafka \
   -p 9092:9092 \
   -e KAFKA_NODE_ID=1 \
   -e KAFKA_PROCESS_ROLES=broker,controller \
@@ -22,7 +21,10 @@ docker run -d \
   apache/kafka:latest
 
 
-docker run -d --name my-redis -p 6379:6379 redis
+docker run -d --name redis -p 6379:6379 redis:7-alpine
+
+
+
 
 docker exec -it my-redis redis-cli
 
