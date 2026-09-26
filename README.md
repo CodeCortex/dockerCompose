@@ -65,10 +65,10 @@ Auth Service produces user information such as:
 {
   "firstName": "Roshan",
   "lastName": "Jaiswal",
-  "email": "roshan@example.com",
-  "phoneNumber": 9876543210,
+  "email": "rosjaiswal9@gmail.com",
+  "phoneNumber": +91-9508801096,
   "userId": "123e4567-e89b-12d3-a456-426614174000",
-  "profilePic": "https://example.com/profile.jpg"
+  "profilePic": "https://avatars.githubusercontent.com/u/90549641?v=4"
 }
 ```
 
@@ -114,9 +114,9 @@ The Data Science Service produces:
 
 ```json
 {
-  "amount": "29000",
+  "amount": "290",
   "currency": "INR",
-  "merchant": "dip Coffee shop",
+  "merchant": "Codecortex Coffee shop",
   "user_id": "d0936019-d4be-454e-bddb-a8e19ad580b6"
 }
 ```
@@ -132,8 +132,6 @@ Redis is used by:
 - **User Service** — user data caching
 - **Expense Service** — expense data caching
 - **Data Science Service** — LLM response caching
-
-Redis is **not used by the Auth Service**.
 
 ```text
                     Redis :6379
@@ -180,10 +178,10 @@ Client
   ▼
 Kong :8000
   │
-  ├── /auth/*      → Auth Service :9898
-  ├── /users/*     → User Service :9810
-  ├── /expenses/*  → Expense Service :9820
-  └── /ds/*        → Data Science Service :8010
+  ├── /auth/v1/*      → Auth Service :9898
+  ├── /user/*     → User Service :9810
+  ├── /expense/v1/*  → Expense Service :9820
+  └── /v1/ds/*        → Data Science Service :8010
 ```
 
 The project also includes a custom Lua authentication plugin.
@@ -228,12 +226,20 @@ Example extracted structure:
 
 ```json
 {
-  "amount": "29000",
+  "amount": "290",
   "currency": "INR",
-  "merchant": "dip Coffee shop",
-  "user_id": "..."
+  "merchant": "Codecortex Coffee shop",
 }
 ```
+
+For input message:
+
+```json
+{
+    "message":"INR 290 spent on AXIS Bank Card XX7003 on 23-Apr-24 at Codecortex Coffee shop. AUS Lmt: INR 43,266.15. To dispute,call 18002662/SMS BLOCK 7003 to 9215676766"
+}
+```
+
 
 ---
 
