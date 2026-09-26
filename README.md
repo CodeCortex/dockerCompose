@@ -8,7 +8,8 @@ The project demonstrates API Gateway routing, custom authentication, event-drive
 
 ## 🏗️ System Architecture
 
-![Microservices System Architecture](/Users/roshanjaiswal/Downloads/Architecture.png)
+<img width="1536" height="1024" alt="Architecture" src="https://github.com/user-attachments/assets/75ad8245-8796-41f3-b90d-3ce867b6046b" />
+
 
  
 
