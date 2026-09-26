@@ -61,7 +61,8 @@ services:
   
 
   userservice:
-    image: codecortexx/user-service:latest
+    image: user-service:latest
+    pull_policy: never
     container_name: user-service
     ports:
       - '9810:9810'
@@ -80,7 +81,8 @@ services:
       - authservice
 
   expenseservice:
-    image: codecortexx/expense-service:latest
+    image: expense-service:latest
+    pull_policy: never
     container_name: expense-service
     ports: 
       - '9820:9820'
@@ -99,7 +101,8 @@ services:
   
 
   dsservice:
-    image: codecortexx/ds-service:latest
+    image: ds-service:latest
+    pull_policy: never
     container_name: ds-service
     ports:
       - '8010:8010'
@@ -118,7 +121,8 @@ services:
 
 
   authservice:
-    image: codecortexx/auth-service:latest
+    image: auth-service:latest
+    pull_policy: never
     container_name: auth-service
     ports:
       - '9898:9898'

@@ -114,3 +114,19 @@ docker exec -it redis redis-cli
 KEYS *
 GET /expenses/101
 GET "expenses::101"
+
+
+
+
+
+
+
+
+
+
+ docker tag auth-service:latest codecortexx/auth-service:latest
+ docker images | grep auth-service
+ docker push codecortexx/auth-service:latest
+
+
+ 
