@@ -433,41 +433,6 @@ docker compose down -v
 
 ---
 
-# 📁 Project Structure
-
-```text
-microservice/
-│
-├── docker-compose.yml
-├── kong.yml
-├── .env
-├── .gitignore
-├── README.md
-│
-├── kong/
-│   └── plugins/
-│       └── custom-auth/
-│           ├── handler.lua
-│           └── schema.lua
-│
-├── mysql/
-│   └── init.sql
-│
-├── authService/
-│   └── ...
-│
-├── userService/
-│   └── ...
-│
-├── expenseService/
-│   └── ...
-│
-└── dsService/
-    └── ...
-```
-
----
-
 # 🧠 Technologies Used
 
 ### Backend
